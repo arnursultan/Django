@@ -31,3 +31,17 @@ def get_post(request, pk):
         "post": post,
     }
     return render(request, "blog/post_detail.html", context)
+
+
+def post_create(request):
+    context = {
+        "title": ""
+    }
+    return render(request, 'blog/post_create.html', context=context)
+
+
+def post_update(request):
+    context = {
+        "title": ""
+    }
+    return render(request, 'blog/post_update.html', context=context)
