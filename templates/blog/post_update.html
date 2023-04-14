@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Nothing</h1>
+    <form action="" method="post">
+    {% csrf_token %}
+
+        {{ form.as_p}}
+
+        <button type="submit">Обновить запись</button>
+
+    </form>
+    <a href="{% url 'index-page' %}">На главную</a>
 {% endblock %}
