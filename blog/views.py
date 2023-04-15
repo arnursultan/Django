@@ -28,10 +28,17 @@ class PostCreateView(generic.CreateView):
     fields = ["title", "content"]
 
 
-# DELETE
+# # DELETE
 class PostDeleteView(generic.DeleteView):
     model = Post
+    template_name = "blog/post_delete.html"
     success_url = reverse_lazy("index-page")
+    fields = ["title", "content"]
+class PostDeleteConfirimView(generic.DeleteView):
+    model = Post
+    template_name = "blog/post_delete_confirm.html"
+    success_url = reverse_lazy("index-page")
+    fields = ["title", "content"]
 
 
 # UPDATE
@@ -50,19 +57,30 @@ class PostUpdateView(generic.UpdateView):
 #     }
 #     return render(request, "blog/index.html", context=context)
 
+class AboutView(generic.TemplateView):
+    model = Post 
+    template_name = "blog/about.html"
+    
+    
 
-def get_about(request):
-    # context = {
-    #     "title": "Страница о нас"
-    # }
-    return render(request, "blog/about.html", context=None)
+class ContactsView(generic.TemplateView):
+    model = Post
+    template_name = "blog/contacts.html" 
+    
+    
+
+# def get_about(request):
+#     # context = {
+#     #     "title": "Страница о нас"
+#     # }
+#     return render(request, "blog/about.html", context=None)
 
 
-def get_contacts(request):
-    context = {
-        "title": "Как с нами связаться"
-    }
-    return render(request, "blog/contacts.html", context=context)
+# def get_contacts(request):
+#     context = {
+#         "title": "Как с нами связаться"
+#     }
+#     return render(request, "blog/contacts.html", context=context)
 
 
 # Read\Retrieve
