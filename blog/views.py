@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from blog.forms import CommentForm
+from blog.forms import CommentForm, PostForm
 from blog.models import Post, Comment
 
 
@@ -12,7 +12,11 @@ class IndexView(generic.ListView):
     queryset = Post.objects.filter(status=True)
     context_object_name = "posts"
     template_name = "blog/index.html"
-    # extra_context = {"title": "Главная страница"}
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = ''
+        return context
 
 
 # Read/Retrieve
@@ -46,9 +50,9 @@ class PostDetailView(generic.DetailView):
 # CREATE
 class PostCreateView(generic.CreateView):
     model = Post
-    template_name = "blog/post_create.html"
+    template_name = 'blog/post_create.html'
     success_url = reverse_lazy("index-page")
-    fields = ["title", "content"]
+    form_class = PostForm
 
 
 # Post.objects.create(title=title, content=content)
