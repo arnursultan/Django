@@ -1,13 +1,14 @@
 from django.urls import path
+from django.views import generic
+
 from blog import views
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index-page"),
-    path("about/", views.AboutView.as_view(), name="about-view"),
-    path("contacts/", views.ContactsView.as_view(),name="contacts-view"),
+    path("about/", generic.TemplateView.as_view(template_name="blog/about.html"), name="about-view"),
+    path("contacts/", generic.TemplateView.as_view(template_name="blog/contacts.html"), name="contacts-view"),
     path("post/<int:pk>", views.PostDetailView.as_view(), name="post-detail"),
     path("post/update/<int:pk>", views.PostUpdateView.as_view(), name="post-update"),
     path("post/create", views.PostCreateView.as_view(), name="post-create"),
-    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
-    path('post/delete/<int:pk>', views.PostDeleteConfirimView.as_view(), name='post-delete-confirm'),
+    path("post/delete/<int:pk>", views.PostDeleteView.as_view(), name="post-delete"),
 ]
