@@ -1,9 +1,26 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
-
-from blog.forms import CommentForm, PostForm
+from rest_framework import generics
+from blog.forms import CommentForm
 from blog.models import Post, Comment
+from blog.serializers import PostSerializer
+
+
+class PostDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+    lookup_field = "pk"
+
+
+class PostCreateAPIView(generics.CreateAPIView):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
+
+
+class PostListAPIView(generics.ListAPIView):
+    queryset = Post.objects.filter(status=True)
+    serializer_class = PostSerializer
 
 
 # Read/Retrieve
@@ -12,11 +29,7 @@ class IndexView(generic.ListView):
     queryset = Post.objects.filter(status=True)
     context_object_name = "posts"
     template_name = "blog/index.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = ''
-        return context
+    # extra_context = {"title": "Главная страница"}
 
 
 # Read/Retrieve
@@ -50,9 +63,9 @@ class PostDetailView(generic.DetailView):
 # CREATE
 class PostCreateView(generic.CreateView):
     model = Post
-    template_name = 'blog/post_create.html'
+    template_name = "blog/post_create.html"
     success_url = reverse_lazy("index-page")
-    form_class = PostForm
+    fields = ["title", "content"]
 
 
 # Post.objects.create(title=title, content=content)
@@ -83,7 +96,6 @@ class PostUpdateView(generic.UpdateView):
 
 class AboutView(generic.TemplateView):
     template_name = "blog/about.html"
-
 
 # def get_about(request):
 #     # context = {
